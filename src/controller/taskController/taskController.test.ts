@@ -149,3 +149,17 @@ describe("updateTask", () => {
     expect(response.text).toEqual("Internal Server Error.");
   });
 });
+
+describe("deleteTask", () => {
+  test("return error if id doesn't exist", async () => {
+    jest.spyOn(taskService, "deleteDbTask").mockResolvedValueOnce(false);
+    const response = await request(app).delete("/tasks/10");
+    expect(response.text).toEqual("Task doesn't exist");
+  });
+
+  test("return error if id doesn't exist", async () => {
+    jest.spyOn(taskService, "deleteDbTask").mockResolvedValueOnce(true);
+    const response = await request(app).delete("/tasks/1");
+    expect(response.text).toEqual("true");
+  });
+});
