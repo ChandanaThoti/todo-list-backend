@@ -43,8 +43,8 @@ describe("addTask", () => {
       id: "",
       name: "",
       description: "Complete the assignment before deadline.",
-      status: "soe",
-      priority: "Hig",
+      status: "pending",
+      priority: "High",
       deadline: "20-11-2025",
     });
     expect(response.text).toEqual("Id doesn't exist");
@@ -56,8 +56,8 @@ describe("addTask", () => {
       id: "34",
       name: "",
       description: "Complete the assignment before deadline.",
-      status: "soe",
-      priority: "Hig",
+      status: "pending",
+      priority: "High",
       deadline: "20-11-2025",
     });
     expect(response.text).toEqual("Please fill all the fields");
@@ -69,10 +69,47 @@ describe("addTask", () => {
       id: "1",
       name: "Test task",
       description: "Complete the assignment before deadline.",
-      status: "soe",
-      priority: "Hig",
+      status: "pending",
+      priority: "High",
       deadline: "20-11-2025",
     });
     expect(response.text).toEqual("Task already exist.");
+  });
+});
+
+describe("getTasks", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  test("return error if tasks empty", async () => {
+    jest.spyOn(taskService, "getDbTasks").mockResolvedValueOnce(false);
+    const response = await request(app).get("/tasks");
+    expect(response.text).toEqual("No tasks found");
+  });
+  test("return all tasks if not empty", async () => {
+    jest.spyOn(taskService, "getDbTasks").mockResolvedValueOnce([
+      {
+        id: "2",
+        name: "Test task",
+        description: "Complete the assignment before deadline.",
+        status: "soe",
+        priority: "Hig",
+        deadline: "20-11-2025",
+      },
+    ]);
+    const response = await request(app).get("/tasks");
+    expect(response.text).toEqual(
+      '[{"id":"2","name":"Test task","description":"Complete the assignment before deadline.","status":"soe","priority":"Hig","deadline":"20-11-2025"}]'
+    );
+  });
+  test("return all tasks if not empty", async () => {
+    jest
+      .spyOn(taskService, "getDbTasks")
+      .mockRejectedValueOnce(new Error("Internal Server Error."));
+    const response = await request(app).get("/tasks");
+    expect(response.text).toEqual("Internal Server Error.");
   });
 });

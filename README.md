@@ -7,6 +7,7 @@ TodoList is a backend application which consist of backend set up for todoList. 
 ## Table of Contents
 
 - [Description](#description)
+- [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Clone Project](#clone-project)
 - [Installation](#installation)
@@ -17,6 +18,7 @@ TodoList is a backend application which consist of backend set up for todoList. 
 ## Features
 
 - Add task feature adds task by validating the details to tasks collection.
+- Display all the tasks in the database.
 
 ## Tech Stack
 
