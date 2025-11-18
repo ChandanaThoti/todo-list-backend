@@ -5,6 +5,7 @@ const mockDocument = {
 
 const mockCollection = {
   doc: jest.fn(() => mockDocument),
+  get: jest.fn(),
 };
 
 jest.mock("../../config/firebaseConfig", () => ({
@@ -13,7 +14,7 @@ jest.mock("../../config/firebaseConfig", () => ({
   },
 }));
 
-import { addDbTask } from "./taskService";
+import { addDbTask, getDbTasks } from "./taskService";
 
 describe("addDbTask", () => {
   beforeEach(() => {
@@ -72,5 +73,15 @@ describe("addDbTask", () => {
     mockDocument.set.mockResolvedValueOnce("mock Response");
     const result = await addDbTask(mockTask);
     expect(result).toBe(false);
+  });
+});
+
+describe("getDbTasks", () => {
+  test("return error if not tasks found", async () => {
+    mockCollection.get.mockResolvedValueOnce({
+      empty: true,
+    });
+    const result = await getDbTasks();
+    expect(result).toEqual(false);
   });
 });
