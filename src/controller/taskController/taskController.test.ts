@@ -1,0 +1,78 @@
+import request from "supertest";
+import app from "../../server";
+import * as taskService from "../../services/taskService/taskService";
+
+describe("addTask", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("return error if id is empty", async () => {
+    jest.spyOn(taskService, "addDbTask").mockResolvedValueOnce(true);
+    const response = await request(app).post("/tasks").send({
+      id: "2",
+      name: "Test task",
+      description: "Complete the assignment before deadline.",
+      status: "soe",
+      priority: "Hig",
+      deadline: "20-11-2025",
+    });
+    expect(response.text).toEqual("true");
+  });
+
+  test("return error if id is empty", async () => {
+    jest
+      .spyOn(taskService, "addDbTask")
+      .mockRejectedValueOnce(new Error("Internal Server Error."));
+    const response = await request(app).post("/tasks").send({
+      id: "2",
+      name: "Test task",
+      description: "Complete the assignment before deadline.",
+      status: "soe",
+      priority: "Hig",
+      deadline: "20-11-2025",
+    });
+    expect(response.text).toEqual("Internal Server Error.");
+  });
+  test("return error if id is empty", async () => {
+    jest.spyOn(taskService, "addDbTask").mockResolvedValueOnce(false);
+    const response = await request(app).post("/tasks").send({
+      id: "",
+      name: "",
+      description: "Complete the assignment before deadline.",
+      status: "soe",
+      priority: "Hig",
+      deadline: "20-11-2025",
+    });
+    expect(response.text).toEqual("Id doesn't exist");
+  });
+
+  test("return error if id is empty", async () => {
+    jest.spyOn(taskService, "addDbTask").mockResolvedValueOnce(false);
+    const response = await request(app).post("/tasks").send({
+      id: "34",
+      name: "",
+      description: "Complete the assignment before deadline.",
+      status: "soe",
+      priority: "Hig",
+      deadline: "20-11-2025",
+    });
+    expect(response.text).toEqual("Please fill all the fields");
+  });
+
+  test("return error if id is empty", async () => {
+    jest.spyOn(taskService, "addDbTask").mockResolvedValueOnce(false);
+    const response = await request(app).post("/tasks").send({
+      id: "1",
+      name: "Test task",
+      description: "Complete the assignment before deadline.",
+      status: "soe",
+      priority: "Hig",
+      deadline: "20-11-2025",
+    });
+    expect(response.text).toEqual("Task already exist.");
+  });
+});
