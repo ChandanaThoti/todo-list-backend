@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Task } from "../../types/Task";
 import {
   addDbTask,
+  deleteDbTask,
   getDbTasks,
   updateDbTask,
 } from "../../services/taskService/taskService";
@@ -20,7 +21,7 @@ export const addTask = async (req: Request, res: Response) => {
     if (!task) {
       return res.status(404).send("Task already exist.");
     }
-    return res.status(201).json(task);
+    return res.status(201).send(task);
   } catch {
     res.status(500).send("Internal Server Error.");
   }
@@ -44,12 +45,24 @@ export const updateTask = async (req: Request, res: Response) => {
     if (!id) {
       return res.status(400).send("Id doesn't exist");
     }
-    const tasks = await updateDbTask(id, req.body);
-    if (!tasks) {
+    const task = await updateDbTask(id, req.body);
+    if (!task) {
       return res.status(404).send("Task not found");
     }
-    res.status(200).send(tasks);
+    res.status(200).send(task);
   } catch {
     res.status(500).send("Internal Server Error.");
   }
+};
+
+export const deleteTask = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).send("Id doesn't exist");
+  }
+  const task = await deleteDbTask(id);
+  if (!task) {
+    return res.status(400).send("Task doesn't exist");
+  }
+  res.status(200).send(task);
 };
