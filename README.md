@@ -20,6 +20,7 @@ TodoList is a backend application which consist of backend set up for todoList. 
 - Add task feature adds task by validating the details to tasks collection with post.
 - Display all the tasks in the database with get.
 - Update task status, description, priority, deadline fields by ID with patch.
+- Delete task by id from collection with delete method.
 
 ## Tech Stack
 
