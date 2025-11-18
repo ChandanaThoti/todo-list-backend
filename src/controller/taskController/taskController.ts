@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { Task } from "../../types/Task";
-import { addDbTask, getDbTasks } from "../../services/taskService/taskService";
+import {
+  addDbTask,
+  getDbTasks,
+  updateDbTask,
+} from "../../services/taskService/taskService";
 
 export const addTask = async (req: Request, res: Response) => {
   try {
@@ -29,6 +33,22 @@ export const getTasks = async (req: Request, res: Response) => {
       return res.status(404).send("No tasks found");
     }
     res.status(200).json(tasks);
+  } catch {
+    res.status(500).send("Internal Server Error.");
+  }
+};
+
+export const updateTask = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.body;
+    if (!id) {
+      return res.status(400).send("Id doesn't exist");
+    }
+    const tasks = await updateDbTask(id, req.body);
+    if (!tasks) {
+      return res.status(404).send("Task not found");
+    }
+    res.status(200).send(tasks);
   } catch {
     res.status(500).send("Internal Server Error.");
   }
