@@ -2,7 +2,7 @@
 
 ## Description
 
-TodoList is a backend application which consist of backend set up for todoList.
+TodoList is a backend application which consist of backend set up for todoList. Firebase is used to handle the backend data persistence.
 
 ## Table of Contents
 
@@ -13,6 +13,10 @@ TodoList is a backend application which consist of backend set up for todoList.
 - [Start Project](#start-project)
 - [Contact Information](#contact-information)
 - [Contibutions](#contributions)
+
+## Features
+
+- Add task feature adds task by validating the details to tasks collection.
 
 ## Tech Stack
 
@@ -44,6 +48,14 @@ npm install
 
 ```bash
    npm start       # Start the application
+```
+
+## Testing
+
+- Used jest for testing the application whether communication enabled between client and server with http methods.
+
+```bash
+   npm test       # Start the application
 ```
 
 ## Contact Information
