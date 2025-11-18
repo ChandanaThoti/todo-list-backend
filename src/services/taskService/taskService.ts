@@ -15,3 +15,15 @@ export const addDbTask = async (task: Task) => {
   await collectionTask.doc(id).set(task);
   return true;
 };
+
+export const getDbTasks = async () => {
+  const snapShot = await collectionTask.get();
+  const tasks: any[] = [];
+  if (snapShot.empty) {
+    return false;
+  }
+  snapShot.forEach((doc) => {
+    tasks.push(doc.data());
+  });
+  return tasks;
+};
