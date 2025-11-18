@@ -38,6 +38,23 @@ describe("addDbTask", () => {
     const result = await addDbTask(mockTask);
     expect(result).toBe(true);
   });
+  test("display error if task already exists", async () => {
+    mockDocument.get.mockResolvedValueOnce({
+      exists: true,
+      data: () => mockTask,
+    });
+    const mockTask = {
+      id: "1",
+      name: "Test task",
+      description: "Test description",
+      status: "pending",
+      priority: "high",
+      deadline: "20-11-2025",
+    };
+    mockDocument.set.mockResolvedValueOnce("mock Response");
+    const result = await addDbTask(mockTask);
+    expect(result).toBe(false);
+  });
 
   test("display error if task fields empty", async () => {
     mockDocument.get.mockResolvedValueOnce({
