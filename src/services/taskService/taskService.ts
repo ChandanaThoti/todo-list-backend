@@ -39,3 +39,11 @@ export const updateDbTask = async (id: string, task: Task) => {
   await collectionTask.doc(id).update({ ...task });
   return true;
 };
+
+export const deleteDbTask = async (id: string) => {
+  if (!id) {
+    return false;
+  }
+  await collectionTask.doc(id).delete();
+  return true;
+};

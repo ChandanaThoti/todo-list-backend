@@ -2,6 +2,7 @@ const mockDocument = {
   get: jest.fn(),
   set: jest.fn(),
   update: jest.fn(),
+  delete: jest.fn(),
 };
 
 const mockCollection = {
@@ -15,7 +16,12 @@ jest.mock("../../config/firebaseConfig", () => ({
   },
 }));
 
-import { addDbTask, getDbTasks, updateDbTask } from "./taskService";
+import {
+  addDbTask,
+  deleteDbTask,
+  getDbTasks,
+  updateDbTask,
+} from "./taskService";
 
 describe("addDbTask", () => {
   beforeEach(() => {
@@ -114,7 +120,7 @@ describe("updateTask", () => {
     expect(result).toBe(false);
   });
 
-  test("return false if task not exists", async () => {
+  test("return true if task updated", async () => {
     mockDocument.get.mockResolvedValueOnce({
       exists: false,
     });
@@ -131,7 +137,7 @@ describe("updateTask", () => {
     expect(result).toBe(true);
   });
 
-  test("return false if id not exists", async () => {
+  test("return false if id doesn't exist", async () => {
     mockDocument.get.mockResolvedValueOnce({
       exists: true,
     });
@@ -146,5 +152,18 @@ describe("updateTask", () => {
     mockDocument.update.mockResolvedValueOnce("mock Response");
     const result = await updateDbTask(mockTask.id, mockTask);
     expect(result).toBe(false);
+  });
+});
+
+describe("deleteTask", () => {
+  test("return false if id doesn't exist", async () => {
+    mockDocument.delete.mockResolvedValueOnce(false);
+    const result = await deleteDbTask("");
+    expect(result).toBe(false);
+  });
+  test("return false if id doesn't exist", async () => {
+    mockDocument.delete.mockResolvedValueOnce(true);
+    const result = await deleteDbTask("1");
+    expect(result).toBe(true);
   });
 });
