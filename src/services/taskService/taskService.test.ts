@@ -1,6 +1,7 @@
 const mockDocument = {
   get: jest.fn(),
   set: jest.fn(),
+  update: jest.fn(),
 };
 
 const mockCollection = {
@@ -14,7 +15,7 @@ jest.mock("../../config/firebaseConfig", () => ({
   },
 }));
 
-import { addDbTask, getDbTasks } from "./taskService";
+import { addDbTask, getDbTasks, updateDbTask } from "./taskService";
 
 describe("addDbTask", () => {
   beforeEach(() => {
@@ -23,7 +24,8 @@ describe("addDbTask", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  test("add task if not exist", async () => {
+
+  test("return true to add task if not exist", async () => {
     mockDocument.get.mockResolvedValueOnce({
       exists: false,
     });
@@ -39,7 +41,8 @@ describe("addDbTask", () => {
     const result = await addDbTask(mockTask);
     expect(result).toBe(true);
   });
-  test("display error if task already exists", async () => {
+
+  test("return if task already exists", async () => {
     mockDocument.get.mockResolvedValueOnce({
       exists: true,
       data: () => mockTask,
@@ -57,7 +60,7 @@ describe("addDbTask", () => {
     expect(result).toBe(false);
   });
 
-  test("display error if task fields empty", async () => {
+  test("return false if task fields empty", async () => {
     mockDocument.get.mockResolvedValueOnce({
       exists: false,
       data: () => mockTask,
@@ -77,11 +80,71 @@ describe("addDbTask", () => {
 });
 
 describe("getDbTasks", () => {
-  test("return error if not tasks found", async () => {
+  test("return false if not tasks found", async () => {
     mockCollection.get.mockResolvedValueOnce({
       empty: true,
     });
     const result = await getDbTasks();
     expect(result).toEqual(false);
+  });
+});
+
+describe("updateTask", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("return false if id not exists", async () => {
+    mockDocument.get.mockResolvedValueOnce({
+      exists: true,
+    });
+    const mockTask = {
+      id: "1",
+      name: "Test task",
+      description: "Test description",
+      status: "pending",
+      priority: "high",
+      deadline: "20-11-2025",
+    };
+    mockDocument.update.mockResolvedValueOnce("mock Response");
+    const result = await updateDbTask(mockTask.id, mockTask);
+    expect(result).toBe(false);
+  });
+
+  test("return false if task not exists", async () => {
+    mockDocument.get.mockResolvedValueOnce({
+      exists: false,
+    });
+    const mockTask = {
+      id: "11",
+      name: "Test task",
+      description: "Test description",
+      status: "pending",
+      priority: "high",
+      deadline: "20-11-2025",
+    };
+    mockDocument.update.mockResolvedValueOnce("mock Response");
+    const result = await updateDbTask(mockTask.id, mockTask);
+    expect(result).toBe(true);
+  });
+
+  test("return false if id not exists", async () => {
+    mockDocument.get.mockResolvedValueOnce({
+      exists: true,
+    });
+    const mockTask = {
+      id: "",
+      name: "Test task",
+      description: "Test description",
+      status: "pending",
+      priority: "high",
+      deadline: "20-11-2025",
+    };
+    mockDocument.update.mockResolvedValueOnce("mock Response");
+    const result = await updateDbTask(mockTask.id, mockTask);
+    expect(result).toBe(false);
   });
 });

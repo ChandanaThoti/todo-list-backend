@@ -113,3 +113,39 @@ describe("getTasks", () => {
     expect(response.text).toEqual("Internal Server Error.");
   });
 });
+
+describe("updateTask", () => {
+  test("return true if task updated", async () => {
+    jest.spyOn(taskService, "updateDbTask").mockResolvedValueOnce(true);
+    const response = await request(app).patch("/tasks").send({
+      id: "2",
+      status: "InProgress",
+    });
+    expect(response.text).toEqual("true");
+  });
+
+  test("return true if task updated", async () => {
+    jest.spyOn(taskService, "updateDbTask").mockResolvedValueOnce(false);
+    const response = await request(app).patch("/tasks").send({
+      id: "2",
+      status: "InProgress",
+    });
+    expect(response.text).toEqual("Task not found");
+  });
+
+  test("return true if task updated", async () => {
+    jest.spyOn(taskService, "updateDbTask").mockResolvedValueOnce(false);
+    const response = await request(app).patch("/tasks").send({
+      status: "InProgress",
+    });
+    expect(response.text).toEqual("Id doesn't exist");
+  });
+
+  test("return true if task updated", async () => {
+    jest
+      .spyOn(taskService, "updateDbTask")
+      .mockRejectedValueOnce(new Error("Internal Server Error."));
+    const response = await request(app).patch("/tasks").send();
+    expect(response.text).toEqual("Internal Server Error.");
+  });
+});
