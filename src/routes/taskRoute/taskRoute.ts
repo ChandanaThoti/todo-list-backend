@@ -10,7 +10,7 @@ const taskRouter = express.Router();
 
 taskRouter.post("/tasks", addTask);
 taskRouter.get("/tasks", getTasks);
-taskRouter.patch("/tasks", updateTask);
+taskRouter.put("/tasks", updateTask);
 taskRouter.delete("/tasks/:id", deleteTask);
 
 export default taskRouter;

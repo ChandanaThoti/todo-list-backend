@@ -41,11 +41,20 @@ export const getTasks = async (req: Request, res: Response) => {
 
 export const updateTask = async (req: Request, res: Response) => {
   try {
-    const { id } = req.body;
+    console.log("some thing");
+    const { id, name, description, status, priority, deadline } = req.body;
     if (!id) {
       return res.status(400).send("Id doesn't exist");
     }
-    const task = await updateDbTask(id, req.body);
+    const taskItem: Task = {
+      id,
+      name,
+      description,
+      status,
+      priority,
+      deadline,
+    };
+    const task = await updateDbTask(taskItem);
     if (!task) {
       return res.status(404).send("Task not found");
     }

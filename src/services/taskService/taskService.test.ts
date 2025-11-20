@@ -116,7 +116,7 @@ describe("updateTask", () => {
       deadline: "20-11-2025",
     };
     mockDocument.update.mockResolvedValueOnce("mock Response");
-    const result = await updateDbTask(mockTask.id, mockTask);
+    const result = await updateDbTask(mockTask);
     expect(result).toBe(false);
   });
 
@@ -133,7 +133,7 @@ describe("updateTask", () => {
       deadline: "20-11-2025",
     };
     mockDocument.update.mockResolvedValueOnce("mock Response");
-    const result = await updateDbTask(mockTask.id, mockTask);
+    const result = await updateDbTask(mockTask);
     expect(result).toBe(true);
   });
 
@@ -150,7 +150,7 @@ describe("updateTask", () => {
       deadline: "20-11-2025",
     };
     mockDocument.update.mockResolvedValueOnce("mock Response");
-    const result = await updateDbTask(mockTask.id, mockTask);
+    const result = await updateDbTask(mockTask);
     expect(result).toBe(false);
   });
 });

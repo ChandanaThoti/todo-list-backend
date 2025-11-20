@@ -36,6 +36,31 @@ git clone https://github.com/ChandanaThoti/todo-list-backend.git
 cd todo-list-backend
 ```
 
+## Environment SetUp
+
+- Install Node and watchman for environment and files watching.
+
+```bash
+brew install node
+brew install watchman
+```
+
+### For IOS
+
+- Install XCode from app store.
+- Install Pod dependency manager.
+
+```bash
+cd ios
+pod install
+```
+
+### For Android
+
+- Install Java in your OS from official document.
+- Install Android Studio and install relative Android SDK platform and tools.
+- [Download Android studio](https://developer.android.com/studio)
+
 ## Installation
 
 ```bash

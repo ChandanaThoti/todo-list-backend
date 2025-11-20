@@ -28,15 +28,15 @@ export const getDbTasks = async () => {
   return tasks;
 };
 
-export const updateDbTask = async (id: string, task: Task) => {
-  if (!id) {
+export const updateDbTask = async (task: Task) => {
+  if (!task.id) {
     return false;
   }
-  const existingTask = await collectionTask.doc(id).get();
+  const existingTask = await collectionTask.doc(task.id).get();
   if (!existingTask.exists) {
     return false;
   }
-  await collectionTask.doc(id).update({ ...task });
+  await collectionTask.doc(task.id).update(task);
   return true;
 };
 
