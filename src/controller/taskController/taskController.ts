@@ -41,7 +41,6 @@ export const getTasks = async (req: Request, res: Response) => {
 
 export const updateTask = async (req: Request, res: Response) => {
   try {
-    console.log("some thing");
     const { id, name, description, status, priority, deadline } = req.body;
     if (!id) {
       return res.status(400).send("Id doesn't exist");
