@@ -5,7 +5,7 @@ import taskRouter from "./routes/taskRoute/taskRoute";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = Number(process.env.PORT!);
 
 app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
@@ -13,8 +13,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/", taskRouter);
-app.listen(PORT, () => {
-  console.log("Server listening at", PORT);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log("Server running");
 });
 
 export default app;
