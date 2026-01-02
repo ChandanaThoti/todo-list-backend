@@ -36,15 +36,6 @@ git clone https://github.com/ChandanaThoti/todo-list-backend.git
 cd todo-list-backend
 ```
 
-## Environment SetUp
-
-- Install Node and watchman for environment and files watching.
-
-```bash
-brew install node
-brew install watchman
-```
-
 ## Installation
 
 ```bash
