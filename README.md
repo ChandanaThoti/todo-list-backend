@@ -45,22 +45,6 @@ brew install node
 brew install watchman
 ```
 
-### For IOS
-
-- Install XCode from app store.
-- Install Pod dependency manager.
-
-```bash
-cd ios
-pod install
-```
-
-### For Android
-
-- Install Java in your OS from official document.
-- Install Android Studio and install relative Android SDK platform and tools.
-- [Download Android studio](https://developer.android.com/studio)
-
 ## Installation
 
 ```bash
